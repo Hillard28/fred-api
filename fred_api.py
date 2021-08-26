@@ -22,18 +22,19 @@ class Fred(object):
                          series_id,
                          observation_start,
                          observation_end,
-                         units='',
-                         frequency='',
-                         aggregation_method=''):
+                         **kwargs):
         
         url = (self.root_url
                + 'series/observations?series_id=' + series_id
                + '&observation_start=' + observation_start
                + '&observation_end=' + observation_end
-               + '&units=' + units
-               + '&frequency=' + frequency
-               + '&aggregation_method=' + aggregation_method
-               + '&api_key=' + self.api_key
+        )
+        
+        if kwargs.keys():
+            for arg, val in kwargs.items():
+                url += '&' + str(arg) + '=' + str(val)
+        
+        url += ('&api_key=' + self.api_key
                + '&file_type=json'
         )
         
