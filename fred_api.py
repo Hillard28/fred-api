@@ -1,11 +1,7 @@
 '''
 Early work in progress. FRED data keys can be found on the website; to find, visit:
 https://fred.stlouisfed.org/
-'''
-# For loading data if you want to skip all the previous inputs
-import requests
 
-'''
 Observation arguments
 Units
 lin: Levels
@@ -41,6 +37,9 @@ avg: Average
 sum: Sum
 eop: End of period
 '''
+
+# For loading data if you want to skip all the previous inputs
+import requests
 
 class Fred(object):
     
