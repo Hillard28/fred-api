@@ -5,6 +5,43 @@ https://fred.stlouisfed.org/
 # For loading data if you want to skip all the previous inputs
 import requests
 
+'''
+Observation arguments
+Units
+lin: Levels
+chg: Change
+ch1: Change from a year ago
+pch: Percent change
+pc1: Percent change from a year ago
+pca: Compounded annual rate of change
+cch: Continuously compounded rate of change
+cca: Continuously compounded annual rate of change
+log: Natural log
+
+Frequency
+d: Daily
+w: Weekly
+bw: Biweekly
+m: Monthly
+q: Quarterly
+sa: Semiannual
+a: Annual
+wef: Weekly, ending Friday
+weth: Weekly, ending Thursday
+wew: Weekly, ending Wednesday
+wetu: Weekly, ending Tuesday
+wem: Weekly, ending Monday
+wesu: Weekly, ending Sunday
+wesa: Weekly, ending Saturday
+bwew: Biweekly, ending Wednesday
+bwem: Bieekly, ending Monday
+
+Aggregation method
+avg: Average
+sum: Sum
+eop: End of period
+'''
+
 class Fred(object):
     
     root_url = 'https://api.stlouisfed.org/fred/'
