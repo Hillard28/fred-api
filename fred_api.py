@@ -1,9 +1,7 @@
 """
 Early work in progress. FRED data keys can be found on the website; to find, visit:
 https://fred.stlouisfed.org/
-
 Observation arguments
-
 Units
 lin: Levels
 chg: Change
@@ -14,7 +12,6 @@ pca: Compounded annual rate of change
 cch: Continuously compounded rate of change
 cca: Continuously compounded annual rate of change
 log: Natural log
-
 Frequency
 d: Daily
 w: Weekly
@@ -32,7 +29,6 @@ wesu: Weekly, ending Sunday
 wesa: Weekly, ending Saturday
 bwew: Biweekly, ending Wednesday
 bwem: Bieekly, ending Monday
-
 Aggregation method
 avg: Average
 sum: Sum
@@ -55,22 +51,34 @@ class Fred(object):
             raise ValueError("Please enter an API key")
         elif len(self.api_key) < 32:
             raise ValueError("Please enter a valid API key")
+    
+    def search_series(self, search_text, **kwargs):
+        
+        url = self.root_url + "series/search?search_text=" + search_text.replace(" ", "+")
+
+        if kwargs.keys():
+            for arg, val in kwargs.items():
+                url += "&" + str(arg) + "=" + str(val)
+        
+        url += "&api_key=" + self.api_key + "&file_type=json"
+
+        request = requests.get(url).json()
+        
+        return request
 
     def get_observations(self, series_id, observation_start, observation_end, **kwargs):
 
         url = (
             self.root_url
-            + "series/observations?series_id="
-            + series_id
-            + "&observation_start="
-            + observation_start
-            + "&observation_end="
-            + observation_end
+            + "series/observations?series_id=" + series_id
+            + "&observation_start=" + observation_start
+            + "&observation_end=" + observation_end
         )
 
         if kwargs.keys():
             for arg, val in kwargs.items():
                 url += "&" + str(arg) + "=" + str(val)
+        
         url += "&api_key=" + self.api_key + "&file_type=json"
 
         request = requests.get(url).json()
