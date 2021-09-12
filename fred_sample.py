@@ -2,7 +2,7 @@
 Sample commands
 """
 # Create FRED object
-fred = Fred("c3b3e00ffe43945cf9995e4c00a4d1aa")
+fred = Fred("!!!USE REQUESTED FRED API KEY!!!")
 
 # Search FRED for effective federal funds rate time series
 search = fred.search_series(search_text = 'effective federal funds rate')
