@@ -1,7 +1,9 @@
 """
 Early work in progress. FRED data keys can be found on the website; to find, visit:
 https://fred.stlouisfed.org/
+
 Observation arguments
+
 Units
 lin: Levels
 chg: Change
@@ -12,6 +14,7 @@ pca: Compounded annual rate of change
 cch: Continuously compounded rate of change
 cca: Continuously compounded annual rate of change
 log: Natural log
+
 Frequency
 d: Daily
 w: Weekly
@@ -29,6 +32,7 @@ wesu: Weekly, ending Sunday
 wesa: Weekly, ending Saturday
 bwew: Biweekly, ending Wednesday
 bwem: Bieekly, ending Monday
+
 Aggregation method
 avg: Average
 sum: Sum
