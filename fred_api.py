@@ -71,22 +71,13 @@ class Fred(object):
 
         return request
 
-    def get_observations(self, series_id, observation_start, observation_end, **kwargs):
+    def get_observations(self, series_id, **kwargs):
 
-        url = (
-            self.root_url
-            + "series/observations?series_id="
-            + series_id
-            + "&observation_start="
-            + observation_start
-            + "&observation_end="
-            + observation_end
-        )
+        url = self.root_url + "series/observations?series_id=" + series_id
 
         if kwargs.keys():
             for arg, val in kwargs.items():
                 url += "&" + str(arg) + "=" + str(val)
-        
         url += "&api_key=" + self.api_key + "&file_type=json"
 
         request = requests.get(url).json()
@@ -97,10 +88,12 @@ class Fred(object):
         for item in request["observations"]:
             obs_dates.append(item["date"])
             obs_values.append(item["value"])
-        
         data = {
-            "Date": obs_dates,
-            series_id: obs_values,
+            "date": obs_dates,
+            "id": series_id,
+            "value": obs_values,
         }
 
         return data
+
+
