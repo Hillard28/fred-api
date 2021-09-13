@@ -43,8 +43,8 @@ fig = px.line(
     y="value",
     color="id",
     title="United States Treasury Yields",
-    width=800,
-    height=600,
+    # width=800,
+    # height=600,
     labels={"date": "Date", "value": "Yield (%)", "id": "ID"},
     template="simple_white",
 )
@@ -80,5 +80,5 @@ for id in fig.data:
         id.name = "3-Month"
 fig.show()
 
-fig.write_image("united_states_treasury_yields_px.svg")
+fig.write_image("united_states_treasury_yields_px.svg", width=800, height=600)
 fig.write_html("united_states_treasury_yields_interactive.html", auto_open=True)
