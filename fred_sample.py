@@ -2,6 +2,7 @@
 Sample commands
 """
 import pandas as pd
+import requests
 import plotly.express as px
 
 # Create FRED object
@@ -14,8 +15,7 @@ search = fred.search_series(search_text="treasury constant maturity rate")
 data = fred.get_observations(
     series_id="DGS10",
     observation_start="1999-12-31",
-    observation_end="2021-08-30",
-    frequency="m",
+    frequency="d",
     aggregation_method="eop",
 )
 dgs10 = pd.DataFrame(data)
@@ -25,8 +25,7 @@ dgs10["value"] = pd.to_numeric(dgs10["value"], errors="coerce")
 data = fred.get_observations(
     series_id="DGS3MO",
     observation_start="1999-12-31",
-    observation_end="2021-08-30",
-    frequency="m",
+    frequency="d",
     aggregation_method="eop",
 )
 dgs3mo = pd.DataFrame(data)
@@ -43,9 +42,8 @@ fig = px.line(
     y="value",
     color="id",
     title="United States Treasury Yields",
-    # width=800,
-    # height=600,
     labels={"date": "Date", "value": "Yield (%)", "id": "ID"},
+    hover_data={"date": "|%B %d, %Y"},
     template="simple_white",
 )
 
@@ -78,6 +76,45 @@ for id in fig.data:
         id.name = "10-Year"
     elif id.name == "DGS3MO":
         id.name = "3-Month"
+
+recessions = requests.get("http://data.nber.org/data/cycles/business_cycle_dates.json").json()
+
+for recession in recessions[1:]:
+    if str(min([min(plot.x) for plot in fig.data])) < recession["trough"]:
+        if str(min([min(plot.x) for plot in fig.data])) <= recession["peak"]:
+            if str(max([max(plot.x) for plot in fig.data])) >= recession["trough"]:
+                fig.add_vrect(
+                    x0=recession["peak"],
+                    x1=recession["trough"],
+                    fillcolor="gray",
+                    opacity=0.25,
+                    line_width=0,
+                )
+            else:
+                fig.add_vrect(
+                    x0=recession["peak"],
+                    x1=str(max([max(plot.x) for plot in fig.data])),
+                    fillcolor="gray",
+                    opacity=0.25,
+                    line_width=0,
+                )
+        else:
+            if str(max([max(plot.x) for plot in fig.data])) >= recession["trough"]:
+                fig.add_vrect(
+                    x0=str(min([min(plot.x) for plot in fig.data])),
+                    x1=recession["trough"],
+                    fillcolor="gray",
+                    opacity=0.25,
+                    line_width=0,
+                )
+            else:
+                fig.add_vrect(
+                    x0=str(min([min(plot.x) for plot in fig.data])),
+                    x1=str(max([max(plot.x) for plot in fig.data])),
+                    fillcolor="gray",
+                    opacity=0.25,
+                    line_width=0,
+                )
 fig.show()
 
 fig.write_image("united_states_treasury_yields_px.svg", width=800, height=600)
