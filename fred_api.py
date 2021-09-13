@@ -95,5 +95,3 @@ class Fred(object):
         }
 
         return data
-
-
