@@ -1,5 +1,6 @@
 """
-Early work in progress. FRED data keys can be found on the website; to find, visit:
+Early work in progress.
+FRED API keys can be obtained from the website; to find, visit:
 https://fred.stlouisfed.org/
 
 Observation arguments
